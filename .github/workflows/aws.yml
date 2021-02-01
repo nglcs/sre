@@ -1,8 +1,7 @@
-on:
-  push:
-    branches:
-      - master
 
+on:
+  workflow_dispatch:
+  
 name: Deploy to Amazon ECS
 
 jobs:
