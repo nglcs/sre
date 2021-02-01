@@ -1,8 +1,7 @@
 
 on:
-  release:
-    types: [push]
-
+  workflow_dispatch:
+  
 name: Deploy to Amazon ECS
 
 jobs:
