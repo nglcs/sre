@@ -14,13 +14,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Validate composer
-        run: |
-          composer validate
-      
-      - name: Install dependencies
-        run: |
-          composer install --optimize-autoloader --prefer-dist --no-progress --no-suggest
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
