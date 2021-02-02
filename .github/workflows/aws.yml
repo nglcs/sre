@@ -30,6 +30,7 @@ jobs:
         run: |
           echo "::set-output name=username::AWS"
           echo "::set-output name=password::`aws ecr get-login-password`"
+          
       - name: Docker build
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
@@ -37,21 +38,23 @@ jobs:
         run: |
           docker build -t $ECR_REGISTRY/registry:$IMAGE_TAG .
           docker push $ECR_REGISTRY/registry:$IMAGE_TAG
+          
       - name: Download task def
         run: |
-          aws ecs describe-task-definition --task-definition conference-test --query taskDefinition > task-definition.json
+          aws ecs describe-task-definition --task-definition task-ecs-task --query taskDefinition > task-definition.json
+          
       - name: Render Amazon ECS task definition for container
         id: render-container
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: conference-test
-          image: ${{ steps.login-ecr.outputs.registry }}/conference-test:${{ github.sha }}
+          container-name: sre
+          image: ${{ steps.login-ecr.outputs.registry }}/registry:${{ github.sha }}
 
       - name: Deploy to Amazon ECS service
         uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.render-container.outputs.task-definition }}
-          service: conference-test
-          cluster: conference
+          service: srv-sre
+          cluster: cluster-01
           wait-for-service-stability: true
