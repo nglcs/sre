@@ -35,8 +35,8 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/sre:$IMAGE_TAG .
-          docker push $ECR_REGISTRY/sre:$IMAGE_TAG
+          docker build -t $ECR_REGISTRY/registry:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/registry:$IMAGE_TAG
       - name: Download task def
         run: |
           aws ecs describe-task-definition --task-definition conference-test --query taskDefinition > task-definition.json
