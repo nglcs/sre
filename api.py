@@ -7,7 +7,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def default():
-    return "It`s Work!"
+    return "It`s Work! | Pipeline Test"
 
 @app.route('/customers-per-purchases')
 def customersPerPurchases():
